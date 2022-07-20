@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lummo-deployment
+  labels:
+    app: lummo
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: lummo
+  template:
+    metadata:
+      labels:
+        app: lummo
+    spec:
+      serviceAccountName: lummo-service-account
+      containers:
+      - name: lummo
+        image: lummo-assignment:1.0.0
+        ports:
+        - containerPort: 3000
+        env:
+            - name: PORT
+              value: 3000
+            - name: ENV
+              value: PROD 
+      

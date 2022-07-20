@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: IngressClass
+metadata:
+  name: istio
+spec:
+  controller: istio.io/ingress-controller
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  ingressClassName: istio
+  rules:
+  - host: api.lummo.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: lummo-service
+          servicePort: 80
